@@ -9,22 +9,7 @@ function QuestionItem({ question, onDeleteQuestion, onUpdateQuestion }) {
     </option>
   ));
 
-  function handleDelete() {
-    fetch(`http://localhost:4000/questions/${id}`, {
-      method: 'DELETE'
-    })
-    onDeleteQuestion(id);
-  }
 
-  function handleQuestionUpdate(correctIndex) {
-    fetch(`http://localhost:4000/questions/${id}`, {
-      method: "PATCH",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({'correctIndex': correctIndex })
-    })
-  }
 
   return (
     <li>
@@ -32,9 +17,9 @@ function QuestionItem({ question, onDeleteQuestion, onUpdateQuestion }) {
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select onChange={(e) => handleQuestionUpdate(e.target.value)} defaultValue={correctIndex}>{options}</select>
+        <select onChange={(e) => onUpdateQuestion(e.target.value)} defaultValue={correctIndex}>{options}</select>
       </label>
-      <button onClick={handleDelete}>Delete Question</button>
+      <button onClick={() => onDeleteQuestion(id, correctIndex)}>Delete Question</button>
     </li>
   );
 }
